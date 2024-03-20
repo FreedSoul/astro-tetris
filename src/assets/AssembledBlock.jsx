@@ -1,33 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import blocks from "../assets/MatrixPieces";
-import { Wireframe } from "@react-three/drei";
+import CubeUnit from "./CubeUnit";
 
-const CubeUnit = ({ pos, size, color }) => {
-  return (
-    <>
-      <mesh
-        position={pos}
-        //   ref={ref}
-      >
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial
-          color={color}
-          wireframe={false}
-          metalness={true}
-        />
-        <Wireframe simplify={true} stroke={"#000"} />
-      </mesh>
-    </>
-  );
-};
-let blockList = Object.keys(blocks);
+// let blockList = Object.keys(blocks);
 
-let pickABlock = blockList[Math.floor(Math.random() * blockList.length)];
-const AssembledBlock = ({ size, color, falling, setActiveBlock, blockType }) => {
+// let pickABlock = blockList[Math.floor(Math.random() * blockList.length)];
+
+const AssembledBlock = ({ size, color, active, setActiveBlock, blockType }) => {
   const ref = useRef();
-  let [fall, setFall] = useState(falling);
-  let pickedBlock = () => pickABlock;
+  let [fall, setFall] = useState(active);
+  // let pickedBlock = () => pickABlock;
   // let [newBlock, setNewBlock] = useState(pickABlock());
   // let blockType = () => () => blocks[pickABlock()];
   // console.log(blockType);
@@ -44,7 +27,7 @@ const AssembledBlock = ({ size, color, falling, setActiveBlock, blockType }) => 
       // console.log({ newBlock });
     } else {
       setFall(false); // Stop falling when it reaches [0, 0, 0]
-      setActiveBlock(false)
+      // setActiveBlock(false);
       // console.log(ref.current.uuid); // Trigger action when cube reaches the bottom
       // setNewBlock(pickABlock()); // Restart falling process when cube reaches the bottom
     }
@@ -59,13 +42,14 @@ const AssembledBlock = ({ size, color, falling, setActiveBlock, blockType }) => 
       // console.log({ newBlock });
       setFall(true); // Restart falling process when cube reaches the bottom
     }
-    // console.log(fall);
+    console.log({ blockType });
+    console.log(fall);
   }, [fall]);
   return (
     <>
-      <group position={[0, 10, 0]} ref={ref} dispose={null}>
+      <group position={[0, 20, 0]} ref={ref} dispose={null}>
         {blocks[blockType].map((position, index) => (
-          <CubeUnit key={index} pos={position} color={0xccf000} />
+          <CubeUnit key={index} pos={position} color={color} />
         ))}
       </group>
     </>
