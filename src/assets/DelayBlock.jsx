@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import AssembledBlock from "./AssembledBlock";
 
 const DelayBlock = ({
-  key,
   blockType,
   active,
   color,
-  setActiveBlock,
   time = 0,
 }) => {
   const [mounted, setMounted] = useState(false);
@@ -21,11 +19,10 @@ const DelayBlock = ({
       {mounted && (
         <AssembledBlock
         //   {...props}
-            key={key}
+            // key={key}
             blockType={blockType}
             active={active}
             color={color}
-            setActiveBlock={setActiveBlock}
         ></AssembledBlock>
       )}
     </>

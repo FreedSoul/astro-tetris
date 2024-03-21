@@ -1,17 +1,29 @@
-import { OrbitControls, Plane } from "@react-three/drei";
+import { KeyboardControls, OrbitControls, Plane, Sky, useKeyboardControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import { Canvas, useFrame } from "@react-three/fiber";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import matrixGrid from "../assets/gridArea";
 import BlockStream from "../assets/BlockStream";
+import * as THREE from "three"
 
 const GameArea = () => {
   const [playing, setPlaying] = useState(true);
   return (
     <>
       <div className="bg-slate-800 h-full">
-        <Canvas camera={{ position: [10, 10, 15], fov: 50 }}>
-          {/* quitar para publicar */}
+      <KeyboardControls
+      map={[
+        { name: "forward", keys: ["ArrowUp", "w", "W"] },
+        { name: "backward", keys: ["ArrowDown", "s", "S"] },
+        { name: "left", keys: ["ArrowLeft", "a", "A"] },
+        { name: "right", keys: ["ArrowRight", "d", "D"] },
+        { name: "rotate", keys: ["Space"] },
+      ]}>
+        <Canvas
+          // onCreated={({ scene }) => (scene.background = new Color("lightblue"))}
+          camera={{ position: [10, 10, 15], fov: 50 }}
+        >
+          <Sky sunPosition={[100, 0, 100]} />
           <Perf />
           <ambientLight intensity={1.5} />
           <directionalLight
@@ -35,6 +47,7 @@ const GameArea = () => {
           {/* ------------------------------- */}
           {playing && <BlockStream />}
         </Canvas>
+      </KeyboardControls>
       </div>
     </>
   );
