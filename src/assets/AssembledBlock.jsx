@@ -3,42 +3,55 @@ import { useFrame } from "@react-three/fiber";
 import blocks from "../assets/MatrixPieces";
 import CubeUnit from "./CubeUnit";
 import { useKeyboardControls } from "@react-three/drei";
-import * as THREE from "three"
+import * as THREE from "three";
 
-const SPEED = 5
-const direction = new THREE.Vector3()
-const frontVector = new THREE.Vector3()
-const sideVector = new THREE.Vector3()
-const rotation = new THREE.Vector3()
+// const SpeedDirection = 5;
 
-const AssembledBlock = ({ color, active, blockType,lerp = THREE.MathUtils.lerp }) => {
+const AssembledBlock = ({ color, active, blockType, time = 0 }) => {
+  const [mounted, setMounted] = useState(false);
   const BlockRef = useRef();
   let [fall, setFall] = useState(active);
   const [, get] = useKeyboardControls();
-  useFrame((state, delta) => {
-    const { forward, backward, left, right, rotate } = get()
-    // const velocity = BlockRef.current.linvel()
-    if (!fall) return;
-    // if (ref.current == null) return;
-    BlockRef.current.position.y > -1 ? BlockRef.current.position.y -= delta * 2 :setFall(false);
-    frontVector.set(0, 0, backward - forward)
-    sideVector.set(left - right, 0, 0)
-    direction.subVectors(frontVector, sideVector).normalize().multiplyScalar(SPEED).applyEuler(state.camera.rotation)
-    // BlockRef.current.setLinvel({ x: direction.x, y: velocity.y, z: direction.z })
-  });
+
   useEffect(() => {
-    console.log(BlockRef.current)
-    if (!fall) {
-      setFall(true); // Restart falling process when cube reaches the bottom
-    }
+    const blockTimeoutId = setTimeout(() => setMounted(true), time);
+    return () => {
+      clearTimeout(blockTimeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!fall) setFall(false);
   }, [fall]);
+
+  useFrame((state, delta) => {
+    if (!fall) return;
+    const { forward, backward, left, right, rotate } = get();
+    // console.log(BlockRef.current);
+    if (BlockRef.current == null) return;
+    BlockRef.current.position.y > 0
+      ? (BlockRef.current.position.y -= delta * 2)
+      : setFall(false);
+
+    if (fall) {
+      if (backward) BlockRef.current.position.z += 0.125;
+      console.log(BlockRef.current.position.z);
+      // if (forward) BlockRef.current.position.z -= delta * SpeedDirection;
+      if (forward) BlockRef.current.position.z -= 0.125;
+      if (right) BlockRef.current.position.x += 0.125;
+      if (left) BlockRef.current.position.x -= 0.125;
+      if (rotate) BlockRef.current.rotation.z -= 0.125;
+    }
+  });
   return (
     <>
-      <group position={[0, 20, 0]} ref={BlockRef} dispose={null}>
-        {blocks[blockType].map((position, index) => (
-          <CubeUnit key={index} pos={position} color={color} />
-        ))}
-      </group>
+      {mounted && (
+        <group position={[0, 20, 0]} ref={BlockRef} dispose={null}>
+          {blocks[blockType].map((position, index) => (
+            <CubeUnit key={index} pos={position} color={color} wireframe={false} />
+          ))}
+        </group>
+      )}
     </>
   );
 };

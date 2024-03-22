@@ -1,7 +1,9 @@
+import { Wireframe } from "@react-three/drei";
+import CubeUnit from "./CubeUnit";
+
 const cubeSize = 1;
 const cubeCount = 5;
-
-let matrixGrid: Array<Array<number>> = [];
+let matrix: Array<Array<number>> = [];
 
 // for (let x = 0; x < cubeCount; x++) {
 //   for (let y = 0; y < cubeCount; y++) {
@@ -11,7 +13,7 @@ let matrixGrid: Array<Array<number>> = [];
 //     }
 //   }
 // }
-matrixGrid = [
+matrix = [
   [0, 0, 0],
   [0, 0, 1],
   [0, 0, 2],
@@ -139,4 +141,27 @@ matrixGrid = [
   [4, 4, 4],
 ];
 
-export default matrixGrid;
+type hexadecimal = "Color" | undefined;
+
+type matrixProps = {
+  pos: number;
+};
+
+const MatrixGrid = ({ pos }: matrixProps) => {
+  return (
+    <>
+      {/* <mesh position={pos}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color={color} wireframe={true} transparent={true} />
+        <Wireframe simplify={true} stroke={"#000"} />
+      </mesh> */}
+      <group position={[0, 0, 0]}  dispose={null}>
+        {matrix.map((position, index) => (
+          <CubeUnit key={index} pos={position} transparent={true} wireframe={true}/>
+        ))}
+      </group>
+    </>
+  );
+};
+
+export default MatrixGrid;

@@ -1,19 +1,18 @@
 import { Wireframe } from "@react-three/drei";
 
-const CubeUnit = ({ pos, size, color }) => {
+const CubeUnit = ({ pos, transparent, color = 0xaaaaa, wireframe }) => {
   return (
     <>
       <mesh
         position={pos}
-        //   ref={ref}
       >
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial
           color={color}
-          wireframe={false}
-          metalness={true}
+          wireframe={wireframe}
+          transparent={transparent}
         />
-        <Wireframe simplify={true} stroke={"#000"} />
+        <Wireframe simplify={true} stroke={""} />
       </mesh>
     </>
   );
