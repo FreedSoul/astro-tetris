@@ -1,18 +1,12 @@
-import { Wireframe } from "@react-three/drei";
+import { Grid, Wireframe } from "@react-three/drei";
 
 const CubeUnit = ({ pos, transparent, color = 0xaaaaa, wireframe }) => {
   return (
     <>
-      <mesh
-        position={pos}
-      >
+      <mesh position={pos}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial
-          color={color}
-          wireframe={wireframe}
-          transparent={transparent}
-        />
-        <Wireframe simplify={true} stroke={""} />
+        <meshBasicMaterial color={color}/>
+        <Wireframe simplify={true} strokeOpacity={1} stroke={"#000"} transparent={true}/>
       </mesh>
     </>
   );

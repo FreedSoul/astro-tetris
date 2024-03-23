@@ -27,20 +27,20 @@ const AssembledBlock = ({ color, active, blockType, time = 0 }) => {
   useFrame((state, delta) => {
     if (!fall) return;
     const { forward, backward, left, right, rotate } = get();
-    // console.log(BlockRef.current);
+    // console.log(get());
     if (BlockRef.current == null) return;
     BlockRef.current.position.y > 0
       ? (BlockRef.current.position.y -= delta * 2)
       : setFall(false);
 
     if (fall) {
-      if (backward) BlockRef.current.position.z += 0.125;
+      if (backward) BlockRef.current.position.z = Math.floor(BlockRef.current.position.z + 1);
       console.log(BlockRef.current.position.z);
       // if (forward) BlockRef.current.position.z -= delta * SpeedDirection;
-      if (forward) BlockRef.current.position.z -= 0.125;
-      if (right) BlockRef.current.position.x += 0.125;
-      if (left) BlockRef.current.position.x -= 0.125;
-      if (rotate) BlockRef.current.rotation.z -= 0.125;
+      if (forward) BlockRef.current.position.z -= 0.1;
+      if (right) BlockRef.current.position.x += 0.1;
+      if (left) BlockRef.current.position.x -= 0.1;
+      if (rotate) BlockRef.current.rotation.z -= 0.1;
     }
   });
   return (

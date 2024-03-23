@@ -1,8 +1,10 @@
 import {
+  Environment,
   KeyboardControls,
   OrbitControls,
   Plane,
   Sky,
+  Wireframe,
   useKeyboardControls,
 } from "@react-three/drei";
 import { Perf } from "r3f-perf";
@@ -30,7 +32,8 @@ const GameArea = () => {
             // onCreated={({ scene }) => (scene.background = new Color("lightblue"))}
             camera={{ position: [10, 10, 15], fov: 50 }}
           >
-            <Sky sunPosition={[100, 0, 100]} />
+            {/* <Sky sunPosition={[100, 0, 100]} /> */}
+            <Environment preset="city" background blur={0.5} />
             <Perf />
             <ambientLight intensity={1.5} />
             <directionalLight
@@ -41,17 +44,17 @@ const GameArea = () => {
             />
             <OrbitControls
               autoRotateSpeed={8}
-              // minDistance={40}
-              minPolarAngle={Math.PI / 4}
+              minDistance={20}
+              minPolarAngle={Math.PI / 6}
               // autoRotate={true}
               target={[1, 0, 0]}
             />
             <axesHelper args={[15]} />
             <gridHelper args={[20, 20, 0xff0000, "teal"]} />
-            <Plane args={[20, 20]} rotation={[Math.PI / -2, 0, 0]}>
-              <meshBasicMaterial color={0x262673} />
+            <Plane args={[10, 10]} rotation={[Math.PI / -2, 0, 0]} position={[0,0,0]}>
+              <meshBasicMaterial color={0xFF0113} />
             </Plane>
-            <MatrixGrid/>
+            {/* <MatrixGrid/> */}
             {/* ------------------------------- */}
             {playing && <BlockStream />}
           </Canvas>

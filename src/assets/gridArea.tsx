@@ -1,9 +1,10 @@
 import { Wireframe } from "@react-three/drei";
 import CubeUnit from "./CubeUnit";
+import GridMatrixUnit from "./GridMatrixUnit";
 
 const cubeSize = 1;
 const cubeCount = 5;
-let matrix: Array<Array<number>> = [];
+export let matrix: Array<Array<number>> = [];
 
 // for (let x = 0; x < cubeCount; x++) {
 //   for (let y = 0; y < cubeCount; y++) {
@@ -155,9 +156,9 @@ const MatrixGrid = ({ pos }: matrixProps) => {
         <meshStandardMaterial color={color} wireframe={true} transparent={true} />
         <Wireframe simplify={true} stroke={"#000"} />
       </mesh> */}
-      <group position={[0, 0, 0]}  dispose={null}>
+      <group position={[-2, 0.5,-2]}  dispose={null}>
         {matrix.map((position, index) => (
-          <CubeUnit key={index} pos={position} transparent={true} wireframe={true}/>
+          <GridMatrixUnit key={index} pos={position} transparent={true} wireframe={true}/>
         ))}
       </group>
     </>
