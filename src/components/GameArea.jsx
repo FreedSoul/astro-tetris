@@ -16,6 +16,7 @@ import * as THREE from "three";
 
 const GameArea = () => {
   const [playing, setPlaying] = useState(true);
+  
   return (
     <>
       <div className="bg-slate-800 h-full">
@@ -31,6 +32,7 @@ const GameArea = () => {
           <Canvas
             // onCreated={({ scene }) => (scene.background = new Color("lightblue"))}
             camera={{ position: [10, 10, 15], fov: 50 }}
+            // orthographic={true}
           >
             {/* <Sky sunPosition={[100, 0, 100]} /> */}
             <Environment preset="city" background blur={0.5} />
